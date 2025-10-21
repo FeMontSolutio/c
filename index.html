@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>QR Code Generator</h1>
+            <p class="subtitle">Create QR codes instantly from any text or URL</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <label for="qr-input">Enter text or URL:</label>
+                <textarea
+                    id="qr-input"
+                    placeholder="Enter your text, URL, or any data you want to encode..."
+                    rows="4"
+                ></textarea>
+
+                <div class="options">
+                    <div class="option-group">
+                        <label for="size">Size:</label>
+                        <select id="size">
+                            <option value="128">Small (128px)</option>
+                            <option value="256" selected>Medium (256px)</option>
+                            <option value="512">Large (512px)</option>
+                        </select>
+                    </div>
+
+                    <div class="option-group">
+                        <label for="color">Color:</label>
+                        <input type="color" id="color" value="#000000">
+                    </div>
+
+                    <div class="option-group">
+                        <label for="bg-color">Background:</label>
+                        <input type="color" id="bg-color" value="#ffffff">
+                    </div>
+                </div>
+
+                <button id="generate-btn" class="btn-primary">Generate QR Code</button>
+            </div>
+
+            <div class="output-section">
+                <div id="qr-code-container" class="qr-container">
+                    <p class="placeholder">Your QR code will appear here</p>
+                </div>
+
+                <div id="download-section" class="download-section" style="display: none;">
+                    <button id="download-btn" class="btn-secondary">Download QR Code</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Generate QR codes for URLs, text, contact information, WiFi credentials, and more!</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
