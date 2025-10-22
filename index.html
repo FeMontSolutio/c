@@ -15,12 +15,74 @@
 
         <main>
             <div class="input-section">
-                <label for="qr-input">Enter text or URL:</label>
-                <textarea
-                    id="qr-input"
-                    placeholder="Enter your text, URL, or any data you want to encode..."
-                    rows="4"
-                ></textarea>
+                <div class="mode-selector">
+                    <label>QR Code Type:</label>
+                    <div class="mode-buttons">
+                        <button id="mode-text" class="mode-btn active">Text / URL</button>
+                        <button id="mode-vcard" class="mode-btn">Contact (vCard)</button>
+                    </div>
+                </div>
+
+                <div id="text-input-section" class="input-mode">
+                    <label for="qr-input">Enter text or URL:</label>
+                    <textarea
+                        id="qr-input"
+                        placeholder="Enter your text, URL, or any data you want to encode..."
+                        rows="4"
+                    ></textarea>
+                </div>
+
+                <div id="vcard-input-section" class="input-mode" style="display: none;">
+                    <div class="vcard-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="vcard-firstname">First Name *</label>
+                                <input type="text" id="vcard-firstname" placeholder="John" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="vcard-lastname">Last Name *</label>
+                                <input type="text" id="vcard-lastname" placeholder="Doe" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="vcard-phone">Phone</label>
+                                <input type="tel" id="vcard-phone" placeholder="+1 234 567 8900">
+                            </div>
+                            <div class="form-group">
+                                <label for="vcard-email">Email</label>
+                                <input type="email" id="vcard-email" placeholder="john@example.com">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="vcard-company">Company</label>
+                                <input type="text" id="vcard-company" placeholder="Company Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="vcard-title">Job Title</label>
+                                <input type="text" id="vcard-title" placeholder="Software Engineer">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vcard-website">Website</label>
+                            <input type="url" id="vcard-website" placeholder="https://example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vcard-address">Address</label>
+                            <input type="text" id="vcard-address" placeholder="123 Main St, City, State, ZIP">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vcard-note">Note</label>
+                            <textarea id="vcard-note" rows="2" placeholder="Additional notes..."></textarea>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="options">
                     <div class="option-group">

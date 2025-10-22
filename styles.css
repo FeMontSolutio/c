@@ -68,6 +68,87 @@ label {
     font-size: 1.1em;
 }
 
+.mode-selector {
+    margin-bottom: 20px;
+}
+
+.mode-selector label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.mode-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: 2px solid #e0e0e0;
+    background: white;
+    color: #666;
+    border-radius: 10px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.mode-btn:hover {
+    border-color: #ff6b35;
+    color: #ff6b35;
+}
+
+.mode-btn.active {
+    background: linear-gradient(135deg, #ff6b35 0%, #4caf50 100%);
+    color: white;
+    border-color: transparent;
+}
+
+.input-mode {
+    margin-bottom: 15px;
+}
+
+.vcard-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 0.95em;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #ff6b35;
+}
+
 textarea {
     width: 100%;
     padding: 15px;
@@ -322,5 +403,13 @@ footer {
 
     .download-buttons {
         grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .mode-buttons {
+        flex-direction: column;
     }
 }
