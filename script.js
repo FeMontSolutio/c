@@ -3,6 +3,7 @@
 let qrCode = null;
 let logoImage = null;
 let currentQRCanvas = null;
+let currentMode = 'text'; // 'text' or 'vcard'
 
 // Get DOM elements
 const qrInput = document.getElementById('qr-input');
@@ -12,6 +13,23 @@ const downloadSection = document.getElementById('download-section');
 const sizeSelect = document.getElementById('size');
 const colorInput = document.getElementById('color');
 const bgColorInput = document.getElementById('bg-color');
+
+// Mode elements
+const modeTextBtn = document.getElementById('mode-text');
+const modeVcardBtn = document.getElementById('mode-vcard');
+const textInputSection = document.getElementById('text-input-section');
+const vcardInputSection = document.getElementById('vcard-input-section');
+
+// vCard form elements
+const vcardFirstname = document.getElementById('vcard-firstname');
+const vcardLastname = document.getElementById('vcard-lastname');
+const vcardPhone = document.getElementById('vcard-phone');
+const vcardEmail = document.getElementById('vcard-email');
+const vcardCompany = document.getElementById('vcard-company');
+const vcardTitle = document.getElementById('vcard-title');
+const vcardWebsite = document.getElementById('vcard-website');
+const vcardAddress = document.getElementById('vcard-address');
+const vcardNote = document.getElementById('vcard-note');
 
 // Logo elements
 const logoUpload = document.getElementById('logo-upload');
@@ -55,18 +73,99 @@ removeLogo.addEventListener('click', () => {
     logoUpload.value = '';
 
     // Regenerate QR code if one exists
-    if (qrCode && qrInput.value.trim()) {
+    if (qrCode) {
         generateQRCode();
     }
 });
 
+// Mode switching
+modeTextBtn.addEventListener('click', () => {
+    currentMode = 'text';
+    modeTextBtn.classList.add('active');
+    modeVcardBtn.classList.remove('active');
+    textInputSection.style.display = 'block';
+    vcardInputSection.style.display = 'none';
+});
+
+modeVcardBtn.addEventListener('click', () => {
+    currentMode = 'vcard';
+    modeVcardBtn.classList.add('active');
+    modeTextBtn.classList.remove('active');
+    vcardInputSection.style.display = 'block';
+    textInputSection.style.display = 'none';
+});
+
+// Generate vCard format
+function generateVCard() {
+    const firstname = vcardFirstname.value.trim();
+    const lastname = vcardLastname.value.trim();
+    const phone = vcardPhone.value.trim();
+    const email = vcardEmail.value.trim();
+    const company = vcardCompany.value.trim();
+    const title = vcardTitle.value.trim();
+    const website = vcardWebsite.value.trim();
+    const address = vcardAddress.value.trim();
+    const note = vcardNote.value.trim();
+
+    if (!firstname && !lastname) {
+        alert('Please enter at least a first name or last name');
+        return null;
+    }
+
+    // Build vCard 3.0 format
+    let vcard = 'BEGIN:VCARD\n';
+    vcard += 'VERSION:3.0\n';
+    vcard += `N:${lastname};${firstname};;;\n`;
+    vcard += `FN:${firstname} ${lastname}\n`;
+
+    if (company) {
+        vcard += `ORG:${company}\n`;
+    }
+
+    if (title) {
+        vcard += `TITLE:${title}\n`;
+    }
+
+    if (phone) {
+        vcard += `TEL;TYPE=CELL:${phone}\n`;
+    }
+
+    if (email) {
+        vcard += `EMAIL:${email}\n`;
+    }
+
+    if (website) {
+        vcard += `URL:${website}\n`;
+    }
+
+    if (address) {
+        vcard += `ADR;TYPE=WORK:;;${address};;;;\n`;
+    }
+
+    if (note) {
+        vcard += `NOTE:${note}\n`;
+    }
+
+    vcard += 'END:VCARD';
+
+    return vcard;
+}
+
 // Generate QR code function
 function generateQRCode() {
-    const text = qrInput.value.trim();
+    let text;
 
-    if (!text) {
-        alert('Please enter some text or URL to generate a QR code');
-        return;
+    if (currentMode === 'vcard') {
+        text = generateVCard();
+        if (!text) {
+            return; // vCard generation failed
+        }
+    } else {
+        text = qrInput.value.trim();
+        if (!text) {
+            alert('Please enter some text or URL to generate a QR code');
+            return;
+        }
     }
 
     // Clear previous QR code
@@ -295,21 +394,21 @@ qrInput.addEventListener('keydown', (e) => {
     }
 });
 
-// Auto-generate on option change if there's already text
+// Auto-generate on option change if there's already a QR code
 sizeSelect.addEventListener('change', () => {
-    if (qrInput.value.trim() && qrCode) {
+    if (qrCode) {
         generateQRCode();
     }
 });
 
 colorInput.addEventListener('change', () => {
-    if (qrInput.value.trim() && qrCode) {
+    if (qrCode) {
         generateQRCode();
     }
 });
 
 bgColorInput.addEventListener('change', () => {
-    if (qrInput.value.trim() && qrCode) {
+    if (qrCode) {
         generateQRCode();
     }
 });
