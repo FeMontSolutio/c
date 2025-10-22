@@ -5,6 +5,13 @@ let logoImage = null;
 let currentQRCanvas = null;
 let currentMode = 'text'; // 'text' or 'vcard'
 
+// Preset logo SVG definition
+const PRESET_LOGO_SVG = `
+<svg viewBox="0 0 45.536 43" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#BF9518" d="M22.768 17.803c.93 0 1.785.31 2.456.822L38.572 6.02l-3.766-3.556L28.51 8.41V.003H17.024V8.41l-6.298-5.946L6.96 6.02l13.348 12.604a4.03 4.03 0 0 1 2.457-.822zm0 7.397c-.93 0-1.785-.31-2.457-.822L6.963 36.982l3.766 3.556 6.298-5.946V43h11.485v-8.408l6.297 5.946 3.766-3.556-13.348-12.604a4.03 4.03 0 0 1-2.456.822zm22.77-9.122h-8.904l6.297-5.947-3.766-3.556-13.348 12.604c.545.634.87 1.441.87 2.32a3.56 3.56 0 0 1-.87 2.32l13.348 12.603 3.766-3.556-6.297-5.947h8.904V16.075zM18.851 21.5c0-.878.328-1.685.87-2.32L6.373 6.579l-3.766 3.556 6.298 5.947H0v10.844h8.905l-6.298 5.947 3.766 3.556 13.348-12.604a3.54 3.54 0 0 1-.87-2.32z"/>
+</svg>
+`;
+
 // Get DOM elements
 const qrInput = document.getElementById('qr-input');
 const generateBtn = document.getElementById('generate-btn');
@@ -32,6 +39,8 @@ const vcardAddress = document.getElementById('vcard-address');
 const vcardNote = document.getElementById('vcard-note');
 
 // Logo elements
+const usePresetLogo = document.getElementById('use-preset-logo');
+const presetLogoPreview = document.getElementById('preset-logo-preview');
 const logoUpload = document.getElementById('logo-upload');
 const logoPreviewContainer = document.getElementById('logo-preview-container');
 const logoPreview = document.getElementById('logo-preview');
@@ -42,10 +51,52 @@ const downloadSvg = document.getElementById('download-svg');
 const downloadPng = document.getElementById('download-png');
 const downloadJpg = document.getElementById('download-jpg');
 
+// Function to load preset logo
+function loadPresetLogo() {
+    const img = new Image();
+    const blob = new Blob([PRESET_LOGO_SVG], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+
+    img.onload = () => {
+        logoImage = img;
+        URL.revokeObjectURL(url);
+
+        // Regenerate QR code if one exists
+        if (qrCode) {
+            generateQRCode();
+        }
+    };
+
+    img.src = url;
+}
+
+// Handle preset logo checkbox
+usePresetLogo.addEventListener('change', (e) => {
+    if (e.target.checked) {
+        // Uncheck custom upload
+        logoUpload.value = '';
+        logoPreviewContainer.style.display = 'none';
+
+        // Load preset logo
+        loadPresetLogo();
+    } else {
+        // Remove logo
+        logoImage = null;
+
+        // Regenerate QR code if one exists
+        if (qrCode) {
+            generateQRCode();
+        }
+    }
+});
+
 // Handle logo upload
 logoUpload.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith('image/')) {
+        // Uncheck preset logo
+        usePresetLogo.checked = false;
+
         const reader = new FileReader();
         reader.onload = (event) => {
             const img = new Image();
@@ -55,7 +106,7 @@ logoUpload.addEventListener('change', (e) => {
                 logoPreviewContainer.style.display = 'flex';
 
                 // Regenerate QR code if one exists
-                if (qrCode && qrInput.value.trim()) {
+                if (qrCode) {
                     generateQRCode();
                 }
             };
@@ -71,6 +122,7 @@ removeLogo.addEventListener('click', () => {
     logoPreview.src = '';
     logoPreviewContainer.style.display = 'none';
     logoUpload.value = '';
+    usePresetLogo.checked = false;
 
     // Regenerate QR code if one exists
     if (qrCode) {
@@ -416,4 +468,7 @@ bgColorInput.addEventListener('change', () => {
 // Show helpful message on first load
 window.addEventListener('load', () => {
     qrInput.focus();
+
+    // Display preset logo icon
+    presetLogoPreview.innerHTML = PRESET_LOGO_SVG;
 });

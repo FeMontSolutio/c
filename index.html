@@ -106,8 +106,25 @@
                 </div>
 
                 <div class="logo-section">
-                    <label for="logo-upload">Upload Logo (Optional):</label>
-                    <input type="file" id="logo-upload" accept="image/*">
+                    <label>Logo Options:</label>
+
+                    <div class="logo-options">
+                        <div class="logo-option-group">
+                            <input type="checkbox" id="use-preset-logo" class="logo-checkbox">
+                            <label for="use-preset-logo" class="checkbox-label">
+                                <span class="checkbox-text">Use Default Logo</span>
+                                <span class="logo-preview-icon" id="preset-logo-preview"></span>
+                            </label>
+                        </div>
+
+                        <div class="divider-text">OR</div>
+
+                        <div class="logo-option-group">
+                            <label for="logo-upload" class="upload-label">Upload Custom Logo:</label>
+                            <input type="file" id="logo-upload" accept="image/*">
+                        </div>
+                    </div>
+
                     <div id="logo-preview-container" class="logo-preview" style="display: none;">
                         <img id="logo-preview" src="" alt="Logo preview">
                         <button id="remove-logo" class="btn-remove">Remove Logo</button>
