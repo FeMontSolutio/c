@@ -51,20 +51,36 @@ const downloadSvg = document.getElementById('download-svg');
 const downloadPng = document.getElementById('download-png');
 const downloadJpg = document.getElementById('download-jpg');
 
-// Function to load preset logo
+// Function to load preset logo at high resolution
 function loadPresetLogo() {
+    // Create a high-resolution canvas (1024x1024)
+    const canvas = document.createElement('canvas');
+    const size = 1024;
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    // Create SVG image
     const img = new Image();
     const blob = new Blob([PRESET_LOGO_SVG], { type: 'image/svg+xml' });
     const url = URL.createObjectURL(blob);
 
     img.onload = () => {
-        logoImage = img;
+        // Draw SVG to canvas at high resolution
+        ctx.drawImage(img, 0, 0, size, size);
         URL.revokeObjectURL(url);
 
-        // Regenerate QR code if one exists
-        if (qrCode) {
-            generateQRCode();
-        }
+        // Create high-res image from canvas
+        const highResImg = new Image();
+        highResImg.onload = () => {
+            logoImage = highResImg;
+
+            // Regenerate QR code if one exists
+            if (qrCode) {
+                generateQRCode();
+            }
+        };
+        highResImg.src = canvas.toDataURL('image/png');
     };
 
     img.src = url;
