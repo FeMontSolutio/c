@@ -43,6 +43,15 @@
                     </div>
                 </div>
 
+                <div class="logo-section">
+                    <label for="logo-upload">Upload Logo (Optional):</label>
+                    <input type="file" id="logo-upload" accept="image/*">
+                    <div id="logo-preview-container" class="logo-preview" style="display: none;">
+                        <img id="logo-preview" src="" alt="Logo preview">
+                        <button id="remove-logo" class="btn-remove">Remove Logo</button>
+                    </div>
+                </div>
+
                 <button id="generate-btn" class="btn-primary">Generate QR Code</button>
             </div>
 
@@ -52,7 +61,21 @@
                 </div>
 
                 <div id="download-section" class="download-section" style="display: none;">
-                    <button id="download-btn" class="btn-secondary">Download QR Code</button>
+                    <h3>Download Options:</h3>
+                    <div class="download-buttons">
+                        <button id="download-svg" class="btn-download">
+                            <span class="format-label">SVG</span>
+                            <span class="format-desc">Vector</span>
+                        </button>
+                        <button id="download-png" class="btn-download">
+                            <span class="format-label">PNG</span>
+                            <span class="format-desc">1000x1000px</span>
+                        </button>
+                        <button id="download-jpg" class="btn-download">
+                            <span class="format-label">JPG</span>
+                            <span class="format-desc">1000x1000px</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </main>
